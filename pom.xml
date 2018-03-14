@@ -29,7 +29,22 @@
   <name>Spring Boot - HTTP Booster</name>
   <description>Spring Boot - HTTP Booster</description>
 
-  
+
+  <properties>
+    <arquillian-cube.version>1.15.3-SNAPSHOT</arquillian-cube.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.arquillian.cube</groupId>
+        <artifactId>arquillian-cube-bom</artifactId>
+        <version>${arquillian-cube.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <!-- Spring Boot Starters -->
@@ -91,23 +106,36 @@
         <optional>true</optional>
     </dependency>
   </dependencies>
-
   <profiles>
-    <profile>
-      <id>openshift-it</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <configuration>
-              <systemPropertyVariables>
-                <app.name>${project.artifactId}</app.name>
-              </systemPropertyVariables>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
+  <profile>
+    <id>openshift</id>
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>fabric8-maven-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>fmp</id>
+              <goals>
+                <goal>resource</goal>
+                <goal>build</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <systemPropertyVariables>
+              <app.name>${project.artifactId}</app.name>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+  </profile>
   </profiles>
+
 </project>

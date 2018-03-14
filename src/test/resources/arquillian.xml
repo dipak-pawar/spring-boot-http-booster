@@ -3,8 +3,10 @@
             xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
   <extension qualifier="openshift">
+    <property name="app.name">spring-boot-rest-http</property>
     <property name="namespace.use.current">true</property>
     <property name="env.init.enabled">true</property>
+    <property name="fmp.build">true</property>
     <property name="enableImageStreamDetection">false</property>
   </extension>
 
